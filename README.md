@@ -209,12 +209,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **[PT-BR]**
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
-
-## Contact | Contato
-
-**[EN]**
-Project Link: https://github.com/gustavotalvares/BrazilianInflationAPI
-
-**[PT-BR]**
-Link do Projeto: https://github.com/gustavotalvares/BrazilianInflationAPI
-```
