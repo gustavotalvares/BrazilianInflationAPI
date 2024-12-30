@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brazilian Inflation API Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1>Brazilian Inflation API</h1>
+            <div class="nav-links">
+                <a href="#endpoints">Endpoints</a>
+                <a href="#examples">Examples</a>
+                <a href="#errors">Errors</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside>
+            <div class="sidebar">
+                <div class="sidebar-item">
+                    <a href="#introduction">Introduction</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#authentication">Authentication</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#endpoints">Endpoints</a>
+                    <div class="sub-items">
+                        <a href="#specific-period">Get Specific Period</a>
+                        <a href="#period-range">Get Period Range</a>
+                        <a href="#variation">Calculate Variation</a>
+                        <a href="#accumulated">Year Accumulated</a>
+                        <a href="#latest">Latest Indices</a>
+                    </div>
+                </div>
+                <div class="sidebar-item">
+                    <a href="#errors">Error Handling</a>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <section id="introduction">
+                <h2>Introduction</h2>
+                <p>This API provides access to Brazilian inflation indices (IPCA and IGP-M) from August 1994 onwards. The data is updated monthly and includes both IPCA (Broad Consumer Price Index) and IGP-M (General Market Price Index).</p>
+                <p>The API allows you to:</p>
+                <ul>
+                    <li>Get inflation indices for specific periods</li>
+                    <li>Calculate variations between dates</li>
+                    <li>Get accumulated yearly inflation</li>
+                    <li>Access the latest available data</li>
+                </ul>
+            </section>
+
+            <section id="authentication">
+                <h2>Authentication</h2>
+                <p>Currently, no authentication is required to use the API.</p>
+                <div class="endpoint-box">
+                    <h4>Base URL</h4>
+                    <code>http://localhost:3000/api</code>
+                </div>
+            </section>
+
+            <section id="endpoints">
+                <h2>Endpoints</h2>
+
+                <div id="specific-period" class="endpoint">
+                    <h3>1. Get Specific Period</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /indices/:year/:month?</code>
+                        <p>Get inflation indices for a specific year or month.</p>
+                        
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li><code>year</code> - Four-digit year (required)</li>
+                            <li><code>month</code> - Two-digit month (optional)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/indices/2023/12</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "IPCA": 6773.27,
+    "IGP-M": 1124.072
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="period-range" class="endpoint">
+                    <h3>2. Get Period Range</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/range</code>
+                        <p>Get indices for a range of dates.</p>
+
+                        <h4>Query Parameters</h4>
+                        <ul>
+                            <li><code>startYear</code> - Starting year (required)</li>
+                            <li><code>startMonth</code> - Starting month (required)</li>
+                            <li><code>endYear</code> - Ending year (required)</li>
+                            <li><code>endMonth</code> - Ending month (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/range?startYear=2023&startMonth=01&endYear=2023&endMonth=03</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "2023": {
+        "01": {
+            "IPCA": 6508.4,
+            "IGP-M": 1163.465
+        },
+        "02": {
+            "IPCA": 6563.07,
+            "IGP-M": 1162.761
+        },
+        "03": {
+            "IPCA": 6609.67,
+            "IGP-M": 1163.359
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="variation" class="endpoint">
+                    <h3>3. Calculate Variation</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/variation</code>
+                        <p>Calculate the percentage variation between two periods.</p>
+
+                        <h4>Query Parameters</h4>
+                        <ul>
+                            <li><code>startYear</code> - Starting year (required)</li>
+                            <li><code>startMonth</code> - Starting month (required)</li>
+                            <li><code>endYear</code> - Ending year (required)</li>
+                            <li><code>endMonth</code> - Ending month (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/variation?startYear=2023&startMonth=01&endYear=2023&endMonth=12</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "IPCA": {
+        "variation": "4.07",
+        "startValue": 6508.4,
+        "endValue": 6773.27
+    },
+    "IGP-M": {
+        "variation": "-3.38",
+        "startValue": 1163.465,
+        "endValue": 1124.072
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="accumulated" class="endpoint">
+                    <h3>4. Year Accumulated</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/accumulated/:year</code>
+                        <p>Get accumulated inflation for a specific year (comparing December of previous year with December of requested year).</p>
+
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li><code>year</code> - Four-digit year (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/accumulated/2023</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "year": "2023",
+    "IPCA": {
+        "accumulated": "4.62",
+        "startValue": 6473.88,
+        "endValue": 6773.27,
+        "startPeriod": "2022/12",
+        "endPeriod": "2023/12"
+    },
+    "IGP-M": {
+        "accumulated": "-3.18",
+        "startValue": 1161.006,
+        "endValue": 1124.072,
+        "startPeriod": "2022/12",
+        "endPeriod": "2023/12"
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="latest" class="endpoint">
+                    <h3>5. Latest Indices</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/latest</code>
+                        <p>Get the most recent available indices.</p>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "year": "2024",
+    "month": "11",
+    "indices": {
+        "IPCA": 7063.77,
+        "IGP-M": 1186.462
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="monthly-variation" class="endpoint">
+                    <h3>6. Monthly Variation</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/monthly-variation/:year/:month</code>
+                        <p>Get the month-over-month variation for both indices.</p>
+
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li><code>year</code> - Four-digit year (required)</li>
+                            <li><code>month</code> - Two-digit month (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/monthly-variation/2023/12</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "year": "2023",
+    "month": "12",
+    "IPCA": {
+        "variation": "0.56",
+        "currentValue": 6773.27,
+        "previousValue": 6735.55
+    },
+    "IGP-M": {
+        "variation": "0.74",
+        "currentValue": 1124.072,
+        "previousValue": 1115.815
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="average" class="endpoint">
+                    <h3>7. Average Inflation</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/average</code>
+                        <p>Calculate average monthly and annual inflation for a period.</p>
+
+                        <h4>Query Parameters</h4>
+                        <ul>
+                            <li><code>startYear</code> - Starting year (required)</li>
+                            <li><code>startMonth</code> - Starting month (required)</li>
+                            <li><code>endYear</code> - Ending year (required)</li>
+                            <li><code>endMonth</code> - Ending month (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/average?startYear=2023&startMonth=01&endYear=2023&endMonth=12</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "period": {
+        "start": "2023/01",
+        "end": "2023/12",
+        "months": 12
+    },
+    "IPCA": {
+        "averageMonthly": "0.42",
+        "averageAnnual": "5.04"
+    },
+    "IGP-M": {
+        "averageMonthly": "-0.27",
+        "averageAnnual": "-3.24"
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div id="extremes" class="endpoint">
+                    <h3>8. Inflation Extremes</h3>
+                    <div class="endpoint-box">
+                        <h4>Request</h4>
+                        <code>GET /api/extremes/:year</code>
+                        <p>Get the highest and lowest monthly variations for a year.</p>
+
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li><code>year</code> - Four-digit year (required)</li>
+                        </ul>
+
+                        <h4>Example Request</h4>
+                        <code>GET /api/extremes/2023</code>
+
+                        <h4>Example Response</h4>
+                        <pre><code class="language-json">{
+    "year": "2023",
+    "IPCA": {
+        "highest": {
+            "month": "03",
+            "variation": "0.71"
+        },
+        "lowest": {
+            "month": "07",
+            "variation": "-0.08"
+        }
+    },
+    "IGP-M": {
+        "highest": {
+            "month": "12",
+            "variation": "0.74"
+        },
+        "lowest": {
+            "month": "06",
+            "variation": "-1.93"
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="errors">
+                <h2>Error Handling</h2>
+                <div class="endpoint-box">
+                    <p>The API returns error messages in the following format:</p>
+                    <pre><code class="language-json">{
+    "error": "Error message description"
+}</code></pre>
+                    <h4>Common Errors</h4>
+                    <ul>
+                        <li>Year not found</li>
+                        <li>Month not found</li>
+                        <li>Invalid period</li>
+                        <li>Missing required parameters</li>
+                    </ul>
+
+                    <h4>HTTP Status Codes</h4>
+                    <ul>
+                        <li><code>200 OK</code> - Request successful</li>
+                        <li><code>400 Bad Request</code> - Invalid parameters</li>
+                        <li><code>404 Not Found</code> - Resource not found</li>
+                        <li><code>500 Internal Server Error</code> - Server error</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="examples">
+                <h2>Usage Examples</h2>
+                <div class="endpoint-box">
+                    <h4>Using cURL</h4>
+                    <pre><code class="language-bash">curl http://localhost:3000/api/indices/2023/12</code></pre>
+
+                    <h4>Using JavaScript Fetch</h4>
+                    <pre><code class="language-javascript">fetch('http://localhost:3000/api/indices/2023/12')
+    .then(response => response.json())
+    .then(data => console.log(data));</code></pre>
+
+                    <h4>Using Python Requests</h4>
+                    <pre><code class="language-python">import requests
+response = requests.get('http://localhost:3000/api/indices/2023/12')
+data = response.json()</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+</body>
+</html> 

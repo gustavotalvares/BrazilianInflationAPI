@@ -1,0 +1,223 @@
+:root {
+    --primary-color: #2563eb;
+    --text-color: #1f2937;
+    --bg-color: #ffffff;
+    --sidebar-bg: #f8fafc;
+    --code-bg: #1e293b;
+    --border-color: #e2e8f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+nav {
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-content h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.nav-links a {
+    margin-left: 2rem;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 4rem;
+}
+
+aside {
+    width: 250px;
+    position: fixed;
+    height: calc(100vh - 4rem);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem;
+}
+
+.sidebar-item {
+    margin-bottom: 1rem;
+}
+
+.sidebar-item a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.sub-items {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+.sub-items a {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+main {
+    margin-left: 250px;
+    padding: 2rem 3rem;
+    width: calc(100% - 250px);
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.endpoint-box {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.endpoint-box h4 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.endpoint-box code {
+    background-color: var(--code-bg);
+    color: #e2e8f0;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.endpoint-box ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+pre {
+    background-color: var(--code-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+pre code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    aside {
+        display: none;
+    }
+    
+    main {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem 1rem;
+    }
+    
+    .nav-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links a {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+} 
+
+.endpoint {
+    margin-bottom: 4rem;
+}
+
+.endpoint h3 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.endpoint-box p {
+    margin: 1rem 0;
+    color: #4b5563;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.sidebar-item a:hover {
+    color: var(--primary-color);
+}
+
+.sub-items a:hover {
+    color: var(--primary-color);
+}
+
+code {
+    transition: background-color 0.2s;
+}
+
+code:hover {
+    background-color: #2d3748;
+}
+
+pre {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+section ul {
+    list-style-type: disc;
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    color: #4b5563;
+}
+
+section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.endpoint-box ul li code {
+    margin: 0 0.2rem;
+} 
